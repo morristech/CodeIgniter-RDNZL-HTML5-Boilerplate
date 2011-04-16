@@ -2,8 +2,8 @@
 	<script src="<?php echo site_url('static/js/libs/modernizr-1.7.min.js'); ?>"></script>    
 
 	<!-- load jquery+ui, cuz its awesome, yo -->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-	<script>!window.jQuery && document.write(unescape('%3Cscript src="<?php echo site_url("static/js/libs/jquery-1.5.1.min.js");?>"%3E%3C/script%3E'))</script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+	<script>!window.jQuery && document.write(unescape('%3Cscript src="<?php echo site_url("static/js/libs/jquery-1.5.2.min.js");?>"%3E%3C/script%3E'))</script>
 	<script type="text/javascript" src="<?php echo site_url('static/js/jquery-ui-1.8.11.custom.min.js');?>"></script>
        
     <!-- load our js plugins & other -->
