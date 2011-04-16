@@ -18,11 +18,18 @@ For good times
 ==============
 Check out /application/controllers and /application/views. Obviously, you'll want to bone up on your CodeIgniter knowledge, but this is a great place to begin reverse-engineering, if you're that sort.
 
-Treat this like it's own website. It *might* work under a sub-directory on an existing vhost, but no promises. Here's my Apache VirtualHost entry:
 
-<VirtualHost *:80>
-	ServerName ci_boilerplate.dev
-	DocumentRoot path/to/some/directory/CodeIgniter-RDNZL-HTML5-Boilerplate
-</VirtualHost>
+Installation
+============
++ MySQL: database dump (database_dump.sql) attached. The config file (application/config/config.php) is set to following:
+	- User: ci_boilerplate
+    - Pass: ci_boilerplate
+    - DB name: ci_boilerplate
+    - Host: localhost
+    
++ Apache: Treat this like it's own website. It *might* work under a sub-directory on an existing vhost, but no promises. Here's my Apache VirtualHost entry:
+    <VirtualHost *:80>
+        ServerName ci_boilerplate.dev
+        DocumentRoot path/to/some/directory/CodeIgniter-RDNZL-HTML5-Boilerplate
+    </VirtualHost>
 
-You shouldn't need to do any more than that.

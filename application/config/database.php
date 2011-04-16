@@ -42,9 +42,9 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'ci_test';
-$db['default']['password'] = 'ci_test';
-$db['default']['database'] = 'ci_test';
+$db['default']['username'] = 'ci_boilerplate';
+$db['default']['password'] = 'ci_boilerplate';
+$db['default']['database'] = 'ci_boilerplate';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
