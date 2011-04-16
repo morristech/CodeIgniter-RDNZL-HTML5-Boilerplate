@@ -40,8 +40,12 @@ function create_menu(basepath)
 
 		'<h3>CodeIgniter (RDNZL) HTML5 Boilerplater </h3>' +
 		'<ul>' +
-			'<li><a href="'+base+'ci_boilerplate/index.html">Index Page</a></li>' +
-			'<li><a href="'+base+'ci_boilerplate/template.html">Template Page</a></li>' +
+			'<li><a href="'+base+'ci_boilerplate/index.html">Overview &amp; Resources</a></li>' +
+			'<li><a href="'+base+'ci_boilerplate/installation.html">Installation Guide</a></li>' +
+			'<li><a href="'+base+'ci_boilerplate/ajax_demo.html">The AJAX Demo</a></li>' +
+			'<li><a href="'+base+'ci_boilerplate/blog_demo.html">The Blog Model Demo</a></li>' +
+			'<li><a href="'+base+'ci_boilerplate/using_tank_auth.html">Using Tank Auth</a></li>' +
+			'<li><a href="'+base+'ci_boilerplate/future_goals.html">Future Goals</a></li>' +
 		'</ul>' +
 
 		'</td><td class="td_sep" valign="top">' +

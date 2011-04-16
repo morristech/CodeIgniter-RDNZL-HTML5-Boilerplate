@@ -37,6 +37,7 @@
         
         	<?php echo anchor(index_page(), 'Home');?>
         	<?php echo anchor('blog', 'Blog Demo');?>
+            <?php echo anchor('user_guide', 'CodeIgniter User Guide');?>
         </nav>
 
 		<div id="main" role="main">
