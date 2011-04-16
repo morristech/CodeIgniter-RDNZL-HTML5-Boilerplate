@@ -17,3 +17,12 @@ Future goals include enhancing the access control feature, and some sort of snap
 For good times
 ==============
 Check out /application/controllers and /application/views. Obviously, you'll want to bone up on your CodeIgniter knowledge, but this is a great place to begin reverse-engineering, if you're that sort.
+
+Treat this like it's own website. It *might* work under a sub-directory on an existing vhost, but no promises. Here's my Apache VirtualHost entry:
+
+<VirtualHost *:80>
+	ServerName ci_boilerplate.dev
+	DocumentRoot path/to/some/directory/CodeIgniter-RDNZL-HTML5-Boilerplate
+</VirtualHost>
+
+You shouldn't need to do any more than that.
