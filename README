@@ -1,0 +1,19 @@
+CodeIgniter (RDNZL Mutation) + HTML5 Boilerplate
+================================================
+
+The goal of this project is to be a basic CodeIgniter install with the following features:
+
++ Base HTML is the awesome HTML5 Boilerplate, including the "good" Javascript:
+	- Modernizer
+	- jQuery
+	- jQuery UI (included theme: Pepper. You can add your own)
++ An demo AJAX Controller/View/Usage scenario to get people started on that path.
++ Access control by Tank Auth for access control (to a non-existent backend currently, sorry)
++ CodeIgniter's Template Parser
++ Wordpress the_content filter. It's awesome, you can't deny.
+
+Future goals include enhancing the access control feature, and some sort of snap-in-able Admin area. Also, a blog Model built-in, so you don't have to download/type the tutorials. Currently we've got a blog controller passing in dummy text.
+
+For good times
+==============
+Check out /application/controllers and /application/views. Obviously, you'll want to bone up on your CodeIgniter knowledge, but this is a great place to begin reverse-engineering, if you're that sort.
