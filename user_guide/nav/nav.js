@@ -38,6 +38,12 @@ function create_menu(basepath)
 			'<li><a href="'+base+'overview/goals.html">Architectural Goals</a></li>' +
 		'</ul>' +
 
+		'<h3>CodeIgniter (RDNZL) HTML5 Boilerplater </h3>' +
+		'<ul>' +
+			'<li><a href="'+base+'ci_boilerplate/index.html">Index Page</a></li>' +
+			'<li><a href="'+base+'ci_boilerplate/template.html">Template Page</a></li>' +
+		'</ul>' +
+
 		'</td><td class="td_sep" valign="top">' +
 
 		'<h3>General Topics</h3>' +

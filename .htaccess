@@ -1,4 +1,4 @@
-DirectoryIndex index.php
+DirectoryIndex index.php,index.html
 
 # Routeer for CI
 <IfModule mod_rewrite.c>
