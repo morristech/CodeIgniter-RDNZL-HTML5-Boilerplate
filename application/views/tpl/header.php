@@ -29,7 +29,7 @@
 
 		<header>
         	
-            <p>Wes Broadway&rsquo;s CodeIgniter + HTML5 ✰ Boilerplate</p>
+            <p>CodeIgniter (RDNZL Mutation) + HTML5 ✰ Boilerplate</p>
 
 		</header>
         
