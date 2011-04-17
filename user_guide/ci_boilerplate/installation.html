@@ -3,7 +3,7 @@
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>New Page : CodeIgniter (RDNZL) HTML5 Boilerplate : CodeIgniter User Guide</title>
+<title>Installation : CodeIgniter (RDNZL) HTML5 Boilerplate : CodeIgniter User Guide</title>
 
 <style type='text/css' media='all'>@import url('../userguide.css');</style>
 <link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
@@ -43,7 +43,7 @@
 <td id="breadcrumb">
 <a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
 <a href="../index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
-<a href="./index.html">CodeIgniter (RDNZL) HTML5 Boilerplate</a> &nbsp;&#8250;&nbsp; New Page</td>
+<a href="./index.html">CodeIgniter (RDNZL) HTML5 Boilerplate</a> &nbsp;&#8250;&nbsp; Installation</td>
 <td id="searchbox">
 	<!-- no search box, this will mostly be run internally on people's dev boxes, and could be confusing
 	<form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />Search User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form>
@@ -59,66 +59,31 @@
 <!-- START CONTENT -->
 <div id="content">
 
-
-<h1>Foo Class</h1>
-
-<p>Brief description of Foo Class.  If it extends a native CodeIgniter class, please link to the class in the CodeIgniter documents here.</p>
-
-<p class="important"><strong>Important:</strong>&nbsp; This is an important note with <kbd>EMPHASIS</kbd>.</p>
-
-<p>Features:</p>
+<h1>Installation</h1>
 
 <ul>
-	<li>Foo</li>
-	<li>Bar</li>
+    <li>
+        <p>MySQL: You'll need a database (empty is best). Populate it with the contents of the SQL file (database_dump.sql) in the root folder of this package. Edit the CodeIgniter config file to match your database info.</p>
+    
+        <ul>
+            <li><strong>Configuration File Location and Default Settings:</strong></li>
+            <li><strong>/application/config/config.php</strong></li>
+            <li>User: ci_boilerplate</li>
+            <li>Pass: ci_boilerplate</li>
+            <li>DB name: ci_boilerplate</li>
+            <li>Host: localhost</li>
+        </ul>
+    </li>
+    <li>
+    	<p>Apache: Just drop the whole package into the root of a VHost on your webserver. Here's my Apache VirtualHost entry:</p>
+    
+<pre>&lt;VirtualHost *:80&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;ServerName ci_boilerplate.dev
+&nbsp;&nbsp;&nbsp;&nbsp;DocumentRoot path/to/some/directory/CodeIgniter-RDNZL-HTML5-Boilerplate
+&nbsp;&nbsp;&nbsp;&nbsp;ErrorLog path/to/some/directory/CodeIgniter-RDNZL-HTML5-Boilerplate/error</em>log.txt
+&lt;/VirtualHost&gt;</pre>
+    </li>
 </ul>
-
-<h2>Usage Heading</h2>
-
-<p>Within a text string, <var>highlight variables</var> using <var>&lt;var&gt;&lt;/var&gt;</var> tags, and <dfn>highlight code</dfn> using the <dfn>&lt;dfn&gt;&lt;/dfn&gt;</dfn> tags.</p>
-
-<h3>Sub-heading</h3>
-
-<p>Put code examples within <dfn>&lt;code&gt;&lt;/code&gt;</dfn> tags:</p>
-
-<code>
-	$this->load->library('foo');<br />
-	<br />
-	$this->foo->bar('bat');
-</code>
-
-
-<h2>Table Preferences</h2>
-
-<p>Use tables where appropriate for long lists of preferences.</p>
-
-
-<table cellpadding="0" cellspacing="1" border="0" style="width:100%" class="tableborder">
-<tr>
-	<th>Preference</th>
-	<th>Default&nbsp;Value</th>
-	<th>Options</th>
-	<th>Description</th>
-</tr>
-<tr>
-	<td class="td"><strong>foo</strong></td>
-	<td class="td">Foo</td>
-	<td class="td">None</td>
-	<td class="td">Description of foo.</td>
-</tr>
-<tr>
-	<td class="td"><strong>bar</strong></td>
-	<td class="td">Bar</td>
-	<td class="td">bat, bag, or bak</td>
-	<td class="td">Description of bar.</td>
-</tr>
-</table>
-
-<h2>Foo Function Reference</h2>
-
-<h3>$this->foo->bar()</h3>
-<p>Description</p>
-<code>$this->foo->bar('<var>baz</var>')</code>
 
 </div>
 <!-- END CONTENT -->
