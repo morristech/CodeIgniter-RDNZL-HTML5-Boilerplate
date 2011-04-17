@@ -41,7 +41,12 @@
 $route['default_controller'] = "home";
 $route['404_override'] = '';
 
-//$route['testApp'] = 'my_test_app';
+/* 	Begin CodeIgniter (RDNZL) HTML5 Boilerplate
+-------------------------------------------------*/
+
+
+/*-------------------------------------------------
+	End CodeIgniter (RDNZL) HTML5 Boilerplate */
 
 
 /* End of file routes.php */

@@ -40,6 +40,18 @@ class Users extends CI_Model
 		if ($query->num_rows() == 1) return $query->row();
 		return NULL;
 	}
+	
+	/**
+	 * Get users
+	 * Author: Wes Broadway
+	 *
+	 * @return	objects list
+	 */
+	function get_users()
+	{
+		$query = $this->db->get($this->table_name);
+		return $query;
+	}
 
 	/**
 	 * Get user record by login (username or email)
