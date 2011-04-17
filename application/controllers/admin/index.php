@@ -1,6 +1,6 @@
 <?php
 
-Class Admin extends CI_Controller{
+class Index extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 

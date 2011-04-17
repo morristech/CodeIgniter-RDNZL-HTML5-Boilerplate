@@ -17,8 +17,8 @@ class Home extends CI_Controller{
 		$data = array('page_copy' => $page_copy);
 		
 		// load the header, content view, and footer
-		$this->load->view('tpl/header', $data);
+		$this->load->view('tpl/header', isset($data) ? $data : array());
 		$this->load->view('home', $data);
-		$this->load->view('tpl/footer', $data);
+		$this->load->view('tpl/footer', isset($data) ? $data : array());
 	}
 }
