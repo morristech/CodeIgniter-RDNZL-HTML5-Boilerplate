@@ -1,0 +1,45 @@
+CodeIgniter (RDNZL Mutation) + HTML5 Boilerplate
+================================================
+
+The goal of this project is to maintain a basic CodeIgniter build, with an HTML template based on HTML5 Boilerplate.
+
+What you'll need
+----------------
++ 	A webserver with PHP, and a MySQL database
++ 	Some understanding of CodeIgniter and/or MVC concepts.
+
+Features
+--------
++ 	Base HTML is the awesome HTML5 Boilerplate, including the "good" Javascript:
+	- 	Modernizer
+	- 	jQuery
+	- 	jQuery UI (included theme: Pepper. You can add your own)
++ 	An demo AJAX Controller/View/Usage scenario to get people started on that path.
++ 	Access control by Tank Auth for access control (to a non-existent backend currently, sorry)
++ 	CodeIgniter's Template Parser
++ 	Wordpress's the_content filter. It's awesome, you can't deny.
+
+Installation
+------------
++ 	MySQL: Create a database (and user if you wish). A database dump (database_dump.sql) is in the root folder of this package. Make your configuration edits in the CodeIgniter config file, (location: /application/config/config.php). 
+	- 	Default Settings
+		----------------
+	- 	User: ci_boilerplate
+    - 	Pass: ci_boilerplate
+    - 	DB name: ci_boilerplate
+    - 	Host: localhost
+    
++ 	Apache: Just drop the whole package into the root of a VHost on your webserver. Here's my Apache VirtualHost entry:
+    `<VirtualHost *:80>`
+        ServerName ci_boilerplate.dev
+        DocumentRoot path/to/some/directory/CodeIgniter-RDNZL-HTML5-Boilerplate
+    `</VirtualHost>`
+
+Roadmap
+-------
+Future goals include enhancing the access control feature, and some sort of snap-in-able Admin area. Also, a blog Model built-in, so you don't have to download/type the tutorials. Currently there's a really basic blog controller passing in dummy text to the view loader (and tempalte parser).
+
+For good times
+--------------
+Check out /application/controllers and /application/views. Obviously, you'll want to bone up on your CodeIgniter knowledge, but this is a great place to begin reverse-engineering, if you're that sort.
+
