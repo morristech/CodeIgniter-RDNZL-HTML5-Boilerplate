@@ -1,5 +1,4 @@
 <?php
-
 class Home extends CI_Controller{
 	function __construct(){
 		parent::__construct();
@@ -14,7 +13,9 @@ class Home extends CI_Controller{
 		} else {
 			$data['user_id']	= $this->tank_auth->get_user_id();
 			$data['username']	= $this->tank_auth->get_username();
+			$this->load->view('tpl/header', isset($data) ? $data : array());		
 			$this->load->view('admin/home', $data);
+			$this->load->view('tpl/footer', isset($data) ? $data : array());		
 		}
 	}
 }
