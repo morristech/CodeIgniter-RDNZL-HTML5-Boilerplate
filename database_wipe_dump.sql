@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 16, 2011 at 05:03 AM
+-- Generation Time: Apr 18, 2011 at 07:20 PM
 -- Server version: 5.1.36
 -- PHP Version: 5.3.5
 
@@ -58,6 +58,8 @@ CREATE TABLE `ci_sessions` (
 -- Dumping data for table `ci_sessions`
 --
 
+INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
+('9630af10d7cf2a723144dd52a2804e24', '192.168.0.40', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:2.0) Gecko/', 1303154367, 'a:1:{s:17:"flash:old:message";s:90:"You have successfully registered. <a href="http://ci_boilerplate.dev/auth/login">Login</a>";}');
 
 -- --------------------------------------------------------
 
@@ -103,12 +105,14 @@ CREATE TABLE `users` (
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `users`
 --
 
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `last_login`, `created`, `modified`) VALUES
+(4, 'charliesheen', '$2a$08$vITtLu8DaQ8vM1iv.PGiOeEfPs3aFPx4wXvx54Ea1BNLK7BWXZIYW', 'test@test.com', 1, 0, NULL, NULL, NULL, NULL, NULL, '192.168.0.40', '0000-00-00 00:00:00', '2011-04-18 19:20:01', '2011-04-18 13:20:01');
 
 -- --------------------------------------------------------
 
@@ -144,9 +148,11 @@ CREATE TABLE `user_profiles` (
   `country` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `website` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `user_profiles`
 --
 
+INSERT INTO `user_profiles` (`id`, `user_id`, `country`, `website`) VALUES
+(3, 4, NULL, NULL);
