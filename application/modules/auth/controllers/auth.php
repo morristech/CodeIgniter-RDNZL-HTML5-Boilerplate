@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Auth extends CI_Controller
+class Auth extends MX_Controller
 {
 	function __construct()
 	{
@@ -8,7 +8,16 @@ class Auth extends CI_Controller
 
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
+		// WBMOD: added next line, as per instructions w/r/t when using Form_validation class
+		// https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc/wiki/Home
+		$this->form_validation->CI =& $this;
+		// end WBMOD
+		
+		// WBMOD this call is deprecated and was throwing an error. security library has
+		// been moved to the codeigniter core. see here: http://expressionengine.com/forums/viewreply/881848/
 		//$this->load->library('security');
+		// end WBMOD
+		
 		$this->load->library('tank_auth');
 		$this->lang->load('tank_auth');
 	}
