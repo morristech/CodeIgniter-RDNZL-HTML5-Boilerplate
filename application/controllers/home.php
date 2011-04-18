@@ -3,7 +3,6 @@
 class Home extends CI_Controller{
 	function __construct(){
 		parent::__construct();
-		$this->load->library('tank_auth');
 	}
 	
 	function index(){
