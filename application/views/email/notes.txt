@@ -1,0 +1,2 @@
+This directory is part of Tank Auth, which is currently being moved into the modules directory (HMVC upgrade)
+-- WB | 2011-04-18

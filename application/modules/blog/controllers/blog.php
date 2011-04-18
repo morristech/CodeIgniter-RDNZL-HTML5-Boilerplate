@@ -1,4 +1,4 @@
-<?php
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Blog extends CI_Controller{
 	function __construct(){
@@ -49,7 +49,7 @@ Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac tu
 		);
 		
 		$this->load->view('tpl/header', $data);
-		$this->load->view('blog/list', $data);
+		$this->load->view('list', $data);
 		$this->load->view('tpl/footer', $data);
 	}
 }
