@@ -498,8 +498,10 @@ class Auth extends CI_Controller
 		$this->email->reply_to($this->config->item('webmaster_email', 'tank_auth'), $this->config->item('website_name', 'tank_auth'));
 		$this->email->to($email);
 		$this->email->subject(sprintf($this->lang->line('auth_subject_'.$type), $this->config->item('website_name', 'tank_auth')));
-		$this->email->message($this->load->view('email/'.$type.'-html', $data, TRUE));
-		$this->email->set_alt_message($this->load->view('email/'.$type.'-txt', $data, TRUE));
+		// WBMOD: HMVC upgrade, point to auth directory for the view, this routes to our module's view dir.
+		$this->email->message($this->load->view('auth/email/'.$type.'-html', $data, TRUE));
+		$this->email->set_alt_message($this->load->view('auth/email/'.$type.'-txt', $data, TRUE));
+		// end WBMOD
 		$this->email->send();
 	}
 
