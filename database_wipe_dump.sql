@@ -156,3 +156,52 @@ CREATE TABLE `user_profiles` (
 
 INSERT INTO `user_profiles` (`id`, `user_id`, `country`, `website`) VALUES
 (3, 4, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `blog`
+--
+
+DROP TABLE IF EXISTS `blog`;
+CREATE TABLE `blog` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` text NOT NULL,
+  `content` longtext NOT NULL,
+  `excerpt` longtext NOT NULL,
+  `datetime_created` datetime NOT NULL,
+  `datetime_published` datetime NOT NULL,
+  `author` int(11) NOT NULL,
+  `last_edited_by` int(11) NOT NULL,
+  `datetime_last_edited` datetime NOT NULL,
+  `status` enum('draft','published','deleted') NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `blog`
+--
+
+INSERT INTO `blog` (`id`, `title`, `content`, `excerpt`, `datetime_created`, `datetime_published`, `author`, `last_edited_by`, `datetime_last_edited`, `status`) VALUES
+(1, 'My First Post', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eget est mi, et porttitor dui. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque commodo semper luctus. Integer tristique enim ut arcu consectetur imperdiet. Sed imperdiet leo mollis felis mattis sed venenatis orci scelerisque. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dignissim mi metus, quis pharetra velit. Donec quam lectus, consequat quis consequat in, facilisis sed enim. In hac habitasse platea dictumst. Duis sem ipsum, pellentesque et eleifend scelerisque, tempor non dui. ', '', '2011-04-18 14:19:43', '2011-04-18 14:20:41', 4, 4, '2011-04-18 14:20:05', 'published'),
+(2, 'My Second Post', 'Sed imperdiet leo mollis felis mattis sed venenatis orci scelerisque. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dignissim mi metus, quis pharetra velit. Donec quam lectus, consequat quis consequat in, facilisis sed enim. In hac habitasse platea dictumst. Duis sem ipsum, pellentesque et eleifend scelerisque, tempor non dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eget est mi, et porttitor dui. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque commodo semper luctus. Integer tristique enim ut arcu consectetur imperdiet. ', 'An excerpt for: Sed imperdiet leo mollis felis mattis sed venenatis orci scelerisque. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. ', '2011-04-18 14:21:02', '2011-04-18 14:20:58', 4, 4, '2011-04-18 14:20:54', 'published');
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `blog_meta`
+--
+
+DROP TABLE IF EXISTS `blog_meta`;
+CREATE TABLE `blog_meta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) NOT NULL COMMENT 'Foreign Key: blog.id',
+  `meta_key` varchar(255) NOT NULL,
+  `meta_value` longtext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `blog_meta`
+--

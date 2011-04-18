@@ -50,7 +50,12 @@ class Users extends CI_Model
 	function get_users()
 	{
 		$query = $this->db->get($this->table_name);
-		return $query;
+		$results = array();
+		
+		if($query->num_rows() > 0)
+			foreach($query->result() as $row) array_push($results, $row);
+			
+		return $results;
 	}
 
 	/**
