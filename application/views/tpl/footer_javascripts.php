@@ -10,6 +10,11 @@
 	<script src="<?php echo site_url("static/js/plugins.js");?>"></script>
 	<script src="<?php echo site_url("static/js/script.js");?>"></script>
     
+    <?php if($this->tank_auth->is_logged_in() && $this->uri->segment(2) == 'admin'): ?>
+    <!-- custom scripts for admin -->
+    <script>$(document).ready(function(){ $('html').addClass('admin'); });</script>
+    <?php endif; ?>
+    
     <?php /*
 	<script>
 		var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']]; // Change UA-XXXXX-X to be your site's ID

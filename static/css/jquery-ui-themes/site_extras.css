@@ -1,0 +1,28 @@
+/* WBMOD: ui-icon bits
+i'm probably misunderstanding the usage of these - do i really need to set these values,
+or am i missing something?
+-------------------------------------------*/
+.ui-icon {
+    margin: 0 4px;
+}
+.ui-icon-parent{
+    cursor: pointer;
+    padding: 4px 0;
+}
+/*------------------------------------------
+end WBMOD: ui-icon bits */
+
+/* WBMOD: some form element stuff
+--------------------------------------------*/
+.save-trigger{
+	display:none;
+}
+.edit-mode .save-trigger{
+	display:inherit;
+}
+input.text,
+textarea.textbox{
+	display:block;
+}
+/*------------------------------------------
+end WBMOD: form element stuff */

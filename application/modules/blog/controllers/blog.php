@@ -1,9 +1,10 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Blog extends CI_Controller{
+class Blog extends MX_Controller{
 	function __construct(){
 		parent::__construct();
 		$this->load->library('parser');		
+		$this->load->model('blog_posts');
 	}
 	
 	function index(){
@@ -12,41 +13,7 @@ class Blog extends CI_Controller{
 		
 		$data = array();
 		
-		$data['posts'] = array(
-			array(
-			'id' => '1',
-			'post_title' => 'Lorem ipsum dolor sit amet',
-			'post_content' => $this->wp_the_content->wpautop(
-'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eget est mi, et porttitor dui. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-			
-Pellentesque commodo semper luctus. <b><i>Integer tristique enim ut arcu</i>,</b> consectetur imperdiet. Sed imperdiet leo mollis felis mattis sed venenatis orci scelerisque. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dignissim mi metus, quis pharetra velit. Donec quam lectus, consequat quis consequat in, facilisis sed enim. In hac habitasse platea dictumst. 
-
-Duis sem ipsum, pellentesque et eleifend scelerisque, tempor non dui. ')
-			),
-			array(
-			'id' => '2',
-			'post_title' => 'Fusce eget est mi',
-			'post_content' => $this->wp_the_content->wpautop(
-'Fusce eget est mi, et porttitor dui. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque commodo semper luctus. 
-
-Integer tristique enim ut arcu consectetur imperdiet. Sed imperdiet leo mollis felis mattis sed venenatis orci scelerisque. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dignissim mi metus, quis pharetra velit. 
-
-<blockquote>Donec quam lectus, consequat quis consequat in, facilisis sed enim. </blockquote>
-
-In hac habitasse platea dictumst. Duis sem ipsum, pellentesque et eleifend scelerisque, tempor non dui. ')
-			),
-			array(
-			'id' => '3',
-			'post_title' => 'Sed imperdiet leo mollis',
-			'post_content' => $this->wp_the_content->wpautop('Sed imperdiet leo mollis felis mattis sed venenatis orci scelerisque. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
-			
-Duis dignissim mi metus, quis pharetra velit. Donec quam lectus, consequat quis consequat in, facilisis sed enim. In hac habitasse platea dictumst. Duis sem ipsum, pellentesque et eleifend scelerisque, tempor non dui. 
-
-<ul><li>Lorem ipsum dolor sit amet</li><li>consectetur adipiscing elit</li><li>Fusce eget est mi</li><li>et porttitor dui.</li></ul>
-
-Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque commodo semper luctus. Integer tristique enim ut arcu consectetur imperdiet. ')
-			)
-		);
+		$data['posts'] = $this->blog_posts->get_posts();
 		
 		$this->load->view('tpl/header', $data);
 		$this->load->view('list', $data);

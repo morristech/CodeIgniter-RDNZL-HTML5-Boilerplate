@@ -19,6 +19,7 @@
 
     <?php echo link_tag('static/css/style.css?v=2'); // html5boilerplate?>
 	<?php echo link_tag('static/css/jquery-ui-themes/pepper-grinder/jquery-ui-1.8.11.custom.css'); // jquery ui theme "Pepper Grinder"?>
+	<?php echo link_tag('static/css/jquery-ui-themes/site_extras.css'); // jquery ui extras?>
     
     <?php $this->load->view('tpl/footer_javascripts', array('option'=>'for_the_future')); ?>    
     
