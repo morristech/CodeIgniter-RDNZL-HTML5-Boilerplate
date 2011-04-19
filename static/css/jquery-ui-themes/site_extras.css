@@ -22,15 +22,27 @@ end WBMOD: ui-icon bits */
 .edit-mode .delete-trigger{
 	display:inherit;
 }
+td label{
+	padding: 6px 3px;
+	margin: 0px 3px 6px 3px;
+	display:block;
+}
+td input[type=checkbox]+label{
+	display:inline;
+}
+input[type=text],
+input[type=password],
+textarea{
+	padding: 6px 3px;
+	margin: 0px 3px 6px 3px;
+}
+input[type=submit]{
+	margin-top:10px;
+}
 input.text-input,
 textarea.text-input{
 	display:block;
 	width:500px;
-	padding: 6px 3px;
-	margin-bottom:8px;
-}
-input.text-input:focus,
-textarea.text-input:focus{
 }
 /* css for timepicker, from http://trentrichardson.com/examples/timepicker/ */
 .ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
