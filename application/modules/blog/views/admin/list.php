@@ -19,11 +19,11 @@ $(document).ready(function(){
 			options = {}
 		} else{
 			if(!options.run){
-				options.run = false;
+				options.run = false
 			}
 		}
 		var $el = $(this)
-			.css({'position':'relative'});
+			.css({'position':'relative'})
 			
 		// set up our triggers: add, edit, save, and delete
 		var $add_trigger = Icons.$add.clone()
@@ -42,13 +42,12 @@ $(document).ready(function(){
 			.css({'left':'-60px','top':'30px'})
 			.click(function(){ formActions.deleteItem() })
 			
-		var formIcons = new Array($edit_trigger, $save_trigger, $delete_trigger, $add_trigger);
+		var formIcons = new Array($edit_trigger, $save_trigger, $delete_trigger, $add_trigger)
 		$.each(formIcons, function(z, $trigger_el){
 			$trigger_el.hover(function(){$(this).addClass("ui-state-hover")},function(){$(this).removeClass("ui-state-hover")})
 				.appendTo($el)
 		})
-		
-		
+				
 		var formActions = {
 			id: $el.data('id'),
 			data: {
@@ -56,50 +55,62 @@ $(document).ready(function(){
 				'content':'',
 				'datetime_published':'',
 			},
-			frontEndElements:{
-				$title: $el.find('.title'),
-				$content: $el.find('.content')
+			
+			// modify these two blocks to include field names for frontend...
+			frontEndElements: Array(
+				[{field_name:'title', nice_name:'Title', field_type: 'text'}],
+				[{field_name:'content', nice_name:'Content', field_type: 'textbox'}]
+			),
+			// ... and backend elements
+			backEndElements: Array(
+				[{field_name:'title', nice_name:'Title', field_type: 'text'}],
+				[{field_name:'content', nice_name:'Content', field_type: 'textbox'}],
+				[{field_name:'datetime_published', nice_name:'Publish Date', field_type: 'text'}]
+			),
+			// end of edits to make this run on ANY form (hah in theory anways!! :)
+			
+			setupDataProperty:function(){
+				$.each(instance.backEndElements, function(z, el_data){ el_data = el_data[0]
+					instance.data[el_data.field_name] = ''
+				})
 			},
-			backEndElements:{
-			},
-
 			run:function(){
-				var instance = this; // actions variable
+				var instance = this // actions variable
 				if(!instance.editMode()){
-					instance.swapToEdit();
+					instance.swapToEdit()
 				} else {
-					instance.swapToView();
+					instance.swapToView()
 				}
 			},
 			
 			editMode: function(){ return $el.hasClass('edit-mode') ? true : false},
 			
 			notifyError:function(msg){
-				var instance = this;
-				var dialogOptions = { modal: true, resizable: false, draggable: false, dialogClass: 'widget-error-msg' };				
+				var instance = this
+				var dialogOptions = { modal: true, resizable: false, draggable: false, dialogClass: 'widget-error-msg' }				
 				var $div = $('<div title="Error"/>')
 					.appendTo($el)
 					.html(msg)
 					.dialog(dialogOptions)					
 					
-					var foo = 0;
+					var foo = 0
 			},
 			
 			insertNew:function(){
-				var instance = this;
+				var instance = this
 				var $new_el = $el.clone()
 				$new_el
-					.attr({'id':'post-0','data-id':'0'})
+					.attr({'id':'item-0','data-id':'0'})
 					.find('.ui-icon-parent').remove()
 					.find('form').remove()
 					
-				$new_el.attachAdmin({run:true});
+				$new_el.attachAdmin({run:true})
 				
 				$new_el.insertBefore($el)
 			},
 			
 			swapToEdit: function(){
-				var instance = this; // actions variable
+				var instance = this // actions variable
 				var setupEl = function(){
 					$el
 						.addClass('edit-mode')
@@ -110,14 +121,14 @@ $(document).ready(function(){
 				var setupForm = function(){
 					var $form = instance.getEditForm()
 						.submit(function(e){
-							e.preventDefault();
+							e.preventDefault()
 							instance.assembleUserData()
 							instance.saveItem()
 						})
 						.appendTo($el)
 				}
 				if(instance.id != 0){
-					$.getJSON('<?php echo site_url(); ?>blog/get_post/' + instance.id, function(data){
+					$.getJSON('<?php echo site_url() ?>blog/get_post/' + instance.id, function(data){
 						// add class='edit-mode' to our container element (css hook)
 						instance.data = data
 						setupEl()
@@ -130,23 +141,29 @@ $(document).ready(function(){
 			}, // end swapToEdit()
 			
 			assembleUserData: function(){
-				var instance = this; // actions variable
-				instance.data = {
-					ajax: true,
-					title: $('input[name=title]', $el).val(),
-					content: $('textarea[name=content]', $el).val(),
-					datetime_published: $('input[name=datetime_published]', $el).val()
-				}
+				var instance = this // actions variable
+				instance.data = {ajax:true}
+				
+				$.each(instance.backEndElements, function(z,el_data){el_data = el_data[0]
+					var tag
+					if(el_data.field_type == 'text'){
+						tag = 'input'
+					} else {
+						tag = 'textarea'
+					}
+							
+					instance.data[el_data.field_name] = $(tag + '[name=' + el_data.field_name + ']', $el).val()
+				})
 			},
 			
 			triggerSaveItem: function() {		
-				var instance = this; // actions variable
-				var $form = $el.find('form');
-				$form.submit();		
+				var instance = this // actions variable
+				var $form = $el.find('form')
+				$form.submit()		
 			},
 			saveItem:function(){
 					
-				var instance = this;
+				var instance = this
 				// drop in a loading icon (to the left of the save-edit-trash column)
 				var $loading = Icons.$loading.clone()
 					.css({'left':'-60px'})
@@ -155,39 +172,39 @@ $(document).ready(function(){
 				
 				if(instance.id == 0){ // thios is our indicator that we're adding a new item
 					// send the data to the server for update
-					$.post('<?php echo site_url(); ?>blog/create_post/', instance.data, function(data){
+					$.post('<?php echo site_url() ?>blog/create_post/', instance.data, function(data){
 						if(data.success){
 							// swap back to "view" mode
-							instance.id = data.id;
-							$el.attr({'id':'post-' + instance.id,'data-id':instance.id});
-							instance.swapToView();
+							instance.id = data.id
+							$el.attr({'id':'item-' + instance.id,'data-id':instance.id})
+							instance.swapToView()
 						} else {
 							instance.notifyError(data.error)
 							// notify user that there was an error
 						}
 						// fade and remove the loading icon
-						$loading.fadeOut('slow',function(){$loading.remove()});
-					}, 'json');
+						$loading.fadeOut('slow',function(){$loading.remove()})
+					}, 'json')
 				} else {
 					// send the data to the server for update
-					$.post('<?php echo site_url(); ?>blog/update_post/' + instance.id, instance.data, function(data){
+					$.post('<?php echo site_url() ?>blog/update_post/' + instance.id, instance.data, function(data){
 						if(data.success){
 							// swap back to "view" mode
-							instance.swapToView();
+							instance.swapToView()
 						} else {
 							instance.notifyError(data.error)
 							// notify user that there was an error
 						}
 						// fade and remove the loading icon
-						$loading.fadeOut('slow',function(){$loading.remove()});
-					}, 'json');
+						$loading.fadeOut('slow',function(){$loading.remove()})
+					}, 'json')
 				}
 			}, // end saveEdit()
 			
 			deleteItem: function() {
-				var instance = this;
-				var confirmation = confirm('Are you sure you want to delete this post?');
-				if(!confirmation) return;
+				var instance = this
+				var confirmation = confirm('Are you sure you want to delete this post?')
+				if(!confirmation) return
 				
 				var $loading = Icons.$loading.clone()
 					.css({'left':'-60px'})
@@ -195,65 +212,76 @@ $(document).ready(function(){
 					.appendTo($el)
 				
 				if(instance.id != 0){
-					$.post('<?php echo site_url(); ?>blog/delete_post/' + instance.id, function(data){
+					$.post('<?php echo site_url() ?>blog/delete_post/' + instance.id, function(data){
 						if(data.success){
-							$el.fadeOut('slow',function(){$el.remove()});
+							$el.fadeOut('slow',function(){$el.remove()})
 						} else {
 							instance.notifyError(data.error)
 							// notify user that there was an error
 						}
-					}, 'json');
+					}, 'json')
 				} else {
-					$el.fadeOut('slow',function(){$el.remove()});
+					$el.fadeOut('slow',function(){$el.remove()})
 				}
 			}, // end deleteItem()
 			
 			swapToView:function(){
-				var instance = this; // actions variable
+				var instance = this // actions variable
 				// make our form disappear (and remove it!
 				if(instance.id == 0){
-					$el.fadeOut('slow', function(){$el.remove()});
+					$el.fadeOut('slow', function(){$el.remove()})
 				} else {
-				$el.find('form').css({'position':'absolute'}).hide().remove()
-				
-				// retrieve the item fresh from the server
-				$.getJSON('<?php echo site_url(); ?>blog/get_post/' + instance.id, function(data){
-					// remove the edit-mode class
-					$el.removeClass('edit-mode')
-					// change the cancel icon to a pencil icon (edit)
-					$el.find('.ui-icon-cancel').removeClass('ui-icon-cancel').addClass('ui-icon-pencil')
-					// populate the entry with the fresh data
-					instance.frontEndElements.$title.text(data.title)
-					instance.frontEndElements.$content.text(data.content)
-					// iterate over the elements inside the entry and show them.
-					$.each(instance.frontEndElements, function(z, $el){
-						$el.show()
-					})
+					$el.find('form').css({'position':'absolute'}).hide().remove()
 					
-				});
+					// retrieve the item fresh from the server
+					$.getJSON('<?php echo site_url() ?>blog/get_post/' + instance.id, function(data){
+						// remove the edit-mode class
+						$el.removeClass('edit-mode')
+						// change the cancel icon to a pencil icon (edit)
+						$el.find('.ui-icon-cancel').removeClass('ui-icon-cancel').addClass('ui-icon-pencil')
+						// populate the entry with the fresh data
+						$.each(instance.frontEndElements, function(z,el_data){el_data = el_data[0]
+							var $child_el = $el.find('.' + el_data.field_name).text(data[el_data.field_name])
+							$child_el.show()
+						})					
+					})
 				}
 			}, // end swapToView()
 			
 			getEditForm: function(){
-				var instance = this; // actions variable
+				var instance = this // actions variable
 				var $form = $('<form method="post" action=""/>')
-					.append(Input.$text.clone().attr({'name':'title','placeholder':'Title'}).val(instance.data.title)) // title field
-					.append(Input.$textbox.clone().attr({'name':'content','placeholder':'Content'}).text(instance.data.content)) // post content field
-					.append(Input.$text.clone().attr({'name':'datetime_published','placeholder':'Datetime Published'}).val(instance.data.datetime_published).datetimepicker({ dateFormat: 'yy-mm-dd' }))
+								
+				$.each(instance.backEndElements, function(z, el_data){ el_data = el_data[0]
+					var $field
+					if(el_data.field_type == 'text'){
+						$field = Input.$text.clone()
+					} else if(el_data.field_type == 'textbox'){
+						$field = Input.$textbox.clone()
+					}
+					$field.val(instance.data[el_data.field_name]).attr({
+						'name':el_data.field_name,
+						'placeholder':el_data.pretty_name})
+						.appendTo($form)
 					
+					if((el_data.field_name).match(/datetime/)){
+						$field.datetimepicker({dateFormat:'yy-mm-dd'})
+					}
+				})
 				return $form
 			} // end getEditForm()
 		}// end actions
 
+		// specify run=true when we clone a new one, as run() inits a whole buncha stuff
 		if(options.run){
 			formActions.run()
 		}
 	
-	}})(jQuery);
+	}})(jQuery)
 	
 	$('html.admin div.hentry').each(function(z, el){
 		$(el).attachAdmin()
-	});
-});
+	})
+})
 
 </script>
