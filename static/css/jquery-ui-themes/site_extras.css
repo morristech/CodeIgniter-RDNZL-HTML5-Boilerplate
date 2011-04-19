@@ -22,11 +22,16 @@ end WBMOD: ui-icon bits */
 .edit-mode .delete-trigger{
 	display:inherit;
 }
-input.text,
-textarea.textbox{
+input.text-input,
+textarea.text-input{
 	display:block;
+	width:500px;
+	padding: 6px 3px;
+	margin-bottom:8px;
 }
-
+input.text-input:focus,
+textarea.text-input:focus{
+}
 /* css for timepicker, from http://trentrichardson.com/examples/timepicker/ */
 .ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
 .ui-timepicker-div dl{ text-align: left; }

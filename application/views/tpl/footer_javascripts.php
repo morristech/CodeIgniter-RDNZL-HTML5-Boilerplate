@@ -10,10 +10,18 @@
 	<script src="<?php echo site_url("static/js/plugins.js");?>"></script>
 	<script src="<?php echo site_url("static/js/script.js");?>"></script>
     
-    <?php if($this->tank_auth->is_logged_in() && $this->uri->segment(2) == 'admin'): ?>
-    <!-- custom scripts for admin -->
-    <script>$(document).ready(function(){ $('html').addClass('admin'); });</script>
-    <?php endif; ?>
+    <?php 
+		if($this->tank_auth->is_logged_in()):
+			$html_class = 'is_logged_in';
+			if($this->uri->segment(2) == 'admin'):
+				$html_class .= ' admin';
+			endif;
+			?>
+            <!-- custom scripts for admin -->
+            <script>$(document).ready(function(){ $('html').addClass('<?php echo $html_class;?>'); });</script>
+    		<?php 
+		endif; 
+	?>
     
     <?php /*
 	<script>

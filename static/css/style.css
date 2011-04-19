@@ -112,7 +112,36 @@ nav#primary{
 	border-bottom:2px dotted #aaa;
 	margin-bottom:10px;
 }
-
+nav#primary a{
+	margin-right:10px;
+}
+.is_logged_in #container{
+	margin-top:40px;
+}
+nav#admin{
+	position:fixed;
+	width:100%;
+	padding:6px 0px 6px 0px;
+	background-color:#ddd;
+	top:0;
+	left:0;
+	text-align:right;
+}
+nav#admin a{
+	margin-right:20px;
+	font-weight:bold;
+	color:#333;
+	text-decoration:none;
+	font-size:11px;
+	padding:2px 3px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+}
+nav#admin a:hover{
+	background-color:#fff;
+	color:#607890;
+}
 .hentry{
 	padding:10px;
 	margin:0 0 25px;

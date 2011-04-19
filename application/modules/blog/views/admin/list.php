@@ -25,7 +25,11 @@ $(document).ready(function(){
 		var $el = $(this)
 			.css({'position':'relative'});
 			
-		// set up our 3 triggers: edit, save, and delete for all; (we'll do "add" separately, for the 1st one only
+		// set up our triggers: add, edit, save, and delete
+		var $add_trigger = Icons.$add.clone()
+			.css({'left':'-30px','top':'30px'})
+			.click(function(){ formActions.insertNew() })
+			
 		var $edit_trigger = Icons.$edit.clone()
 			.css({'left':'-30px'})
 			.click(function(){ formActions.run() })
@@ -38,20 +42,12 @@ $(document).ready(function(){
 			.css({'left':'-60px','top':'30px'})
 			.click(function(){ formActions.deleteItem() })
 			
-		var formIcons = new Array($edit_trigger, $save_trigger, $delete_trigger);
+		var formIcons = new Array($edit_trigger, $save_trigger, $delete_trigger, $add_trigger);
 		$.each(formIcons, function(z, $trigger_el){
 			$trigger_el.hover(function(){$(this).addClass("ui-state-hover")},function(){$(this).removeClass("ui-state-hover")})
 				.appendTo($el)
 		})
 		
-		if(1==1){
-			var $add_trigger = Icons.$add.clone()
-				.css({'left':'-30px','top':'30px'})
-				.click(function(){ formActions.insertNew() })
-				
-				.hover(function(){$(this).addClass("ui-state-hover")},function(){$(this).removeClass("ui-state-hover")})
-				.appendTo($el)
-		}
 		
 		var formActions = {
 			id: $el.data('id'),
@@ -60,12 +56,12 @@ $(document).ready(function(){
 				'content':'',
 				'datetime_published':'',
 			},
-			editMode: function(){ return $el.hasClass('edit-mode') ? true : false},
 			frontEndElements:{
 				$title: $el.find('.title'),
 				$content: $el.find('.content')
 			},
-			backEndElements:{},
+			backEndElements:{
+			},
 
 			run:function(){
 				var instance = this; // actions variable
@@ -74,6 +70,19 @@ $(document).ready(function(){
 				} else {
 					instance.swapToView();
 				}
+			},
+			
+			editMode: function(){ return $el.hasClass('edit-mode') ? true : false},
+			
+			notifyError:function(msg){
+				var instance = this;
+				var dialogOptions = { modal: true, resizable: false, draggable: false, dialogClass: 'widget-error-msg' };				
+				var $div = $('<div title="Error"/>')
+					.appendTo($el)
+					.html(msg)
+					.dialog(dialogOptions)					
+					
+					var foo = 0;
 			},
 			
 			insertNew:function(){
@@ -153,6 +162,7 @@ $(document).ready(function(){
 							$el.attr({'id':'post-' + instance.id,'data-id':instance.id});
 							instance.swapToView();
 						} else {
+							instance.notifyError(data.error)
 							// notify user that there was an error
 						}
 						// fade and remove the loading icon
@@ -165,6 +175,7 @@ $(document).ready(function(){
 							// swap back to "view" mode
 							instance.swapToView();
 						} else {
+							instance.notifyError(data.error)
 							// notify user that there was an error
 						}
 						// fade and remove the loading icon
@@ -188,6 +199,7 @@ $(document).ready(function(){
 						if(data.success){
 							$el.fadeOut('slow',function(){$el.remove()});
 						} else {
+							instance.notifyError(data.error)
 							// notify user that there was an error
 						}
 					}, 'json');
@@ -199,6 +211,9 @@ $(document).ready(function(){
 			swapToView:function(){
 				var instance = this; // actions variable
 				// make our form disappear (and remove it!
+				if(instance.id == 0){
+					$el.fadeOut('slow', function(){$el.remove()});
+				} else {
 				$el.find('form').css({'position':'absolute'}).hide().remove()
 				
 				// retrieve the item fresh from the server
@@ -216,6 +231,7 @@ $(document).ready(function(){
 					})
 					
 				});
+				}
 			}, // end swapToView()
 			
 			getEditForm: function(){
