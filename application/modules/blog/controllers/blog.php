@@ -20,6 +20,21 @@ class Blog extends MX_Controller{
 		$this->load->view('tpl/footer', $data);
 	}
 	
+	function admin(){		
+		if (!$this->tank_auth->is_logged_in()) redirect('auth/login');
+		
+		$this->load->helper('typography');		
+		$this->load->library('wp_the_content');
+		
+		$data = array();
+		
+		$data['posts'] = $this->blog_posts->get_posts();
+		
+		$this->load->view('tpl/header', $data);
+		$this->load->view('blog/admin/list', $data);
+		$this->load->view('tpl/footer', $data);
+	}
+	
 	function get_posts(){
 		$data = array();
 		
@@ -75,12 +90,7 @@ class Blog extends MX_Controller{
 			$this->json_error_msg('Sorry, no post found.');		
 			
 		elseif(intval($this->uri->segment(3)) > 0): 
-		
-			//$_POST['ajax'] = true;
-			//$_POST['content'] = 'Sed imperdiet leo mollis felis mattis sed venenatis orci scelerisque. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dignissim mi metus, quis pharetra velit. Donec quam lectus, consequat quis consequat in, facilisis sed enim. In hac habitasse platea dictumst. Duis sem ipsum, pellentesque et eleifend scelerisque, tempor non dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eget est mi, et porttitor dui. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque commodo semper luctus. Integer tristique enim ut arcu consectetur imperdiet.';
-			//$_POST['datetime_published'] = date('Y-m-d g:i:s');
-			//$_POST['title'] = 'My Second Post !!!!';
-		
+				
 			$find_term = $this->uri->segment(3);
 			
 			// get our input data and validate it
@@ -125,6 +135,57 @@ class Blog extends MX_Controller{
 		else:
 			$this->json_error_msg('Sorry, no post found.');
 		endif;
+	}
+	function create_post(){
+	
+		if (!$this->tank_auth->is_logged_in()):
+			$this->json_error_msg('You must be logged in to do that.');
+		endif;	
+		
+		// get our input data and validate it
+		$this->load->library('form_validation');
+		$this->form_validation->CI =& $this;
+		
+		$this->form_validation->set_rules('ajax', 'Ajax Option', 'trim|bool|xss_clean');
+		$this->form_validation->set_rules('title', 'Title', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('content', 'Content', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('datetime_published', 'Time Published', 'trim|xss_clean');
+		
+		// begin validate-or-die block
+		if ($this->form_validation->run() == FALSE):
+			$this->json_error_msg('There was an error in your submission');
+		else:
+			$data = array(
+				'title' => $this->input->post('title'),
+				'content' => $this->input->post('content'),
+				'datetime_last_edited' => date('Y-m-d g:i:s'),
+				'datetime_published' => $this->input->post('datetime_published'),
+				'datetime_created' => date('Y-m-d g:i:s'),
+				'status' => 'published',
+				'author' => $this->tank_auth->get_user_id(),
+				'last_edited_by' => $this->tank_auth->get_user_id(),
+			);
+		
+			$result = $this->blog_posts->create_post($data);
+			
+			if($this->input->post('ajax')):
+				if($result->has_error()):
+					$this->json_error_msg($result->get_msg());
+				else:
+					$result_id = $this->blog_posts->get_last_insert_id();
+					$result = array('success' => true, 'msg' => $result->get_msg(), 'id' => $result_id);
+				endif;
+				
+				echo json_encode($result); 
+				return;				
+			else:
+				// TODO: redirecto blog/admin
+				// set flash message
+				redirect('blog/admin');
+			endif;
+		
+		endif;
+		// end validate-or-die block
 	}
 	
 	function json_error_msg($msg){

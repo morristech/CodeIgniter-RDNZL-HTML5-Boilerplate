@@ -62,6 +62,15 @@ class Blog_posts extends CI_Model
 		return;
 	}
 	
+	function create_post($data){
+		$this->db->insert($this->table_name, $data);
+		$this->set_msg('Create successful');
+		return $this;
+	}
+	function get_last_insert_id(){
+		return $this->db->insert_id();
+	}
+
 	function update_post($id, $data){
 		$this->db->where('id', $id);
 		$this->db->update($this->table_name, $data);

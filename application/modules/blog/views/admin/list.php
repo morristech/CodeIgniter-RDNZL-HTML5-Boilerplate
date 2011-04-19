@@ -1,4 +1,4 @@
-<h2>Blog Posts</h2>
+<h2>Recent Blog Posts</h2>
 
 <?php echo $this->parser->parse('blog/post_detail', array('posts' => $posts), true); ?>
 
@@ -14,7 +14,14 @@ $(document).ready(function(){
 
 	Icons.init();
 	
-	(function($){ $.fn.attachAdmin = function() {		
+	(function($){ $.fn.attachAdmin = function(options) {
+		if(!options){
+			options = {}
+		} else{
+			if(!options.run){
+				options.run = false;
+			}
+		}
 		var $el = $(this)
 			.css({'position':'relative'});
 			
@@ -24,11 +31,11 @@ $(document).ready(function(){
 			.click(function(){ formActions.run() })
 			
 		var $save_trigger = Icons.$save.clone()
-			.css({'left':'-30px','top':'30px'})
+			.css({'left':'-60px','top':'00px'})
 			.click(function(){ formActions.triggerSaveItem() })
 		
 		var $delete_trigger = Icons.$delete.clone()
-			.css({'left':'-30px','top':'60px'})
+			.css({'left':'-60px','top':'30px'})
 			.click(function(){ formActions.deleteItem() })
 			
 		var formIcons = new Array($edit_trigger, $save_trigger, $delete_trigger);
@@ -37,17 +44,22 @@ $(document).ready(function(){
 				.appendTo($el)
 		})
 		
-		if($el.index()==1){
+		if(1==1){
 			var $add_trigger = Icons.$add.clone()
-				.css({'left':'-30px','top':'-30px'})
+				.css({'left':'-30px','top':'30px'})
 				.click(function(){ formActions.insertNew() })
+				
 				.hover(function(){$(this).addClass("ui-state-hover")},function(){$(this).removeClass("ui-state-hover")})
 				.appendTo($el)
 		}
-	
+		
 		var formActions = {
 			id: $el.data('id'),
-			data: {},
+			data: {
+				'title':'',
+				'content':'',
+				'datetime_published':'',
+			},
 			editMode: function(){ return $el.hasClass('edit-mode') ? true : false},
 			frontEndElements:{
 				$title: $el.find('.title'),
@@ -63,34 +75,30 @@ $(document).ready(function(){
 					instance.swapToView();
 				}
 			},
+			
 			insertNew:function(){
 				var instance = this;
-				$new_el = $el.clone()
-					.find('.title').empty().end()
-					.find('.content').empty().end()
-					.find('.datetime_published').empty().end()
-				
-				$form = instance.getEditForm()
-					.submit(function(e){
-						e.preventDefault();
-						instance.assembleUserData()
-						instance.saveItem()
-					})
-					.appendTo($new_el)
+				var $new_el = $el.clone()
+				$new_el
+					.attr({'id':'post-0','data-id':'0'})
+					.find('.ui-icon-parent').remove()
+					.find('form').remove()
+					
+				$new_el.attachAdmin({run:true});
 				
 				$new_el.insertBefore($el)
 			},
+			
 			swapToEdit: function(){
 				var instance = this; // actions variable
-				$.getJSON('<?php echo site_url(); ?>blog/get_post/' + instance.id, function(data){
-					// add class='edit-mode' to our container element (css hook)
-					instance.data = data;
+				var setupEl = function(){
 					$el
 						.addClass('edit-mode')
 						.find('.ui-icon-pencil').removeClass('ui-icon-pencil').addClass('ui-icon-cancel')
 						.end()
 						.children(':not(.ui-icon-parent)').hide()
-						
+				}
+				var setupForm = function(){
 					var $form = instance.getEditForm()
 						.submit(function(e){
 							e.preventDefault();
@@ -98,8 +106,20 @@ $(document).ready(function(){
 							instance.saveItem()
 						})
 						.appendTo($el)
-				})
+				}
+				if(instance.id != 0){
+					$.getJSON('<?php echo site_url(); ?>blog/get_post/' + instance.id, function(data){
+						// add class='edit-mode' to our container element (css hook)
+						instance.data = data
+						setupEl()
+						setupForm()						
+					})
+				} else {
+					setupEl()
+					setupForm()
+				}
 			}, // end swapToEdit()
+			
 			assembleUserData: function(){
 				var instance = this; // actions variable
 				instance.data = {
@@ -109,6 +129,7 @@ $(document).ready(function(){
 					datetime_published: $('input[name=datetime_published]', $el).val()
 				}
 			},
+			
 			triggerSaveItem: function() {		
 				var instance = this; // actions variable
 				var $form = $el.find('form');
@@ -128,6 +149,8 @@ $(document).ready(function(){
 					$.post('<?php echo site_url(); ?>blog/create_post/', instance.data, function(data){
 						if(data.success){
 							// swap back to "view" mode
+							instance.id = data.id;
+							$el.attr({'id':'post-' + instance.id,'data-id':instance.id});
 							instance.swapToView();
 						} else {
 							// notify user that there was an error
@@ -159,14 +182,18 @@ $(document).ready(function(){
 					.css({'left':'-60px'})
 					.addClass('ui-state-default ui-corner-all ui-icon-parent')
 					.appendTo($el)
-						
-				$.post('<?php echo site_url(); ?>blog/delete_post/' + instance.id, function(data){
-					if(data.success){
-						$el.fadeOut('slow',function(){$el.remove()});
-					} else {
-						// notify user that there was an error
-					}
-				}, 'json');
+				
+				if(instance.id != 0){
+					$.post('<?php echo site_url(); ?>blog/delete_post/' + instance.id, function(data){
+						if(data.success){
+							$el.fadeOut('slow',function(){$el.remove()});
+						} else {
+							// notify user that there was an error
+						}
+					}, 'json');
+				} else {
+					$el.fadeOut('slow',function(){$el.remove()});
+				}
 			}, // end deleteItem()
 			
 			swapToView:function(){
@@ -194,15 +221,18 @@ $(document).ready(function(){
 			getEditForm: function(){
 				var instance = this; // actions variable
 				var $form = $('<form method="post" action=""/>')
-					.append(Input.$text.clone().attr({'name':'title'}).val(instance.data.title)) // title field
-					.append(Input.$textbox.clone().attr({'name':'content'}).text(instance.data.content)) // post content field
-					.append(Input.$text.clone().attr({'name':'datetime_published'}).val(instance.data.datetime_published).datetimepicker({ dateFormat: 'yy-mm-dd' }))
+					.append(Input.$text.clone().attr({'name':'title','placeholder':'Title'}).val(instance.data.title)) // title field
+					.append(Input.$textbox.clone().attr({'name':'content','placeholder':'Content'}).text(instance.data.content)) // post content field
+					.append(Input.$text.clone().attr({'name':'datetime_published','placeholder':'Datetime Published'}).val(instance.data.datetime_published).datetimepicker({ dateFormat: 'yy-mm-dd' }))
 					
 				return $form
 			} // end getEditForm()
-
-					
 		}// end actions
+
+		if(options.run){
+			formActions.run()
+		}
+	
 	}})(jQuery);
 	
 	$('html.admin div.hentry').each(function(z, el){
