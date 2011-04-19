@@ -14,10 +14,12 @@ end WBMOD: ui-icon bits */
 
 /* WBMOD: some form element stuff
 --------------------------------------------*/
-.save-trigger{
+.save-trigger,
+.delete-trigger{
 	display:none;
 }
-.edit-mode .save-trigger{
+.edit-mode .save-trigger,
+.edit-mode .delete-trigger{
 	display:inherit;
 }
 input.text,

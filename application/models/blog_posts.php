@@ -65,9 +65,16 @@ class Blog_posts extends CI_Model
 	function update_post($id, $data){
 		$this->db->where('id', $id);
 		$this->db->update($this->table_name, $data);
-		$this->set_msg('Update successful.');
+		$this->set_msg('Update successful');
 		return $this;
 	}
+	function delete_post($id){
+		$this->db->where('id', $id);
+		$this->db->delete($this->table_name);
+		$this->set_msg('Delete successful');
+		return $this;
+	}
+
 		
 	function has_error(){
 		return $this->error ? true : false;

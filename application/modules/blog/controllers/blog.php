@@ -38,6 +38,33 @@ class Blog extends MX_Controller{
 		endif;
 	}
 	
+	function delete_post(){
+		//require login for this process
+		if (!$this->tank_auth->is_logged_in()):
+			$this->json_error_msg('You must be logged in to do that.');
+		endif;
+		
+		// make sure we've got an ID
+		if(FALSE === $this->uri->segment(3)):
+			$this->json_error_msg('Sorry, no post found.');		
+		
+		// if the ID is greater than 0, continue...
+		elseif(intval($this->uri->segment(3)) > 0): 
+			$find_term = $this->uri->segment(3);
+			// execute the delete
+			$result = $this->blog_posts->delete_post($find_term);
+			// check result for any errors, handle accordingly
+			if($result->has_error()):
+				$this->json_error_msg($result->get_msg());
+			else:
+				$result = array('success' => true, 'msg' => $result->get_msg());
+			endif;
+			
+			echo json_encode($result); 
+		endif;
+		
+		return;		
+	}
 	function update_post(){
 	
 		if (!$this->tank_auth->is_logged_in()):
@@ -73,6 +100,7 @@ class Blog extends MX_Controller{
 					'title' => $this->input->post('title'),
 					'content' => $this->input->post('content'),
 					'datetime_last_edited' => date('Y-m-d g:i:s'),
+					'datetime_published' => $this->input->post('datetime_published'),
 				);
 			
 				$result = $this->blog_posts->update_post($find_term, $data);
