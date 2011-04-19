@@ -4,7 +4,7 @@
     
         <h3 id="post-{id}-title" class="title">{title}</h3>
         
-        <div id="post-content-{id}" class="post-content">
+        <div id="post-content-{id}" class="content">
     
             {content}
     
