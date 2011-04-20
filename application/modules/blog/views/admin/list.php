@@ -19,6 +19,9 @@ var frontEndElements = Array();
 		field_name: '<?php echo $el->field_name; ?>',
 		nice_name: '<?php echo $el->nice_name; ?>',
 		field_type: '<?php echo $el->field_type; ?>'
+		<?php if(isset($el->options) && count($el->options) > 0): ?>
+			, field_options: <?php echo json_encode($el->options); ?>
+		<?php endif; ?>
 	});
 <?php endforeach; ?>
 

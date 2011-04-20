@@ -21,6 +21,7 @@ $.fn.attachAdmin = function(options) {
 		// properties
 		id: $el.data('id'),
 		data: {},
+		options: {},
 		// here are our icons/triggere
 		$add_trigger: Icons.$add.clone()		.css({'left':'-30px','top':'30px'}),
 		$edit_trigger: Icons.$edit.clone()		.css({'left':'-30px'}),
@@ -43,6 +44,7 @@ $.fn.attachAdmin = function(options) {
 		// to the $el. not much more than that
 		_init:function(options){
 			var instance = this;
+			instance.options = options;
 			
 			instance.frontEndElements = options.frontEndElements;
 			instance.backEndElements = options.backEndElements;
@@ -69,7 +71,7 @@ $.fn.attachAdmin = function(options) {
 		// since this is really more of a toggle function between edit & view mode
 		run:function(){
 			var instance = this // actions variable
-			if(!instance.editMode()){
+			if(!instance.isEditMode()){
 				instance.swapToEdit()
 			} else {
 				instance.swapToView()
@@ -77,7 +79,7 @@ $.fn.attachAdmin = function(options) {
 		},
 		
 		// returns true or falso depending on if $el has a class of "edit-mode"
-		editMode: function(){ return $el.hasClass('edit-mode') ? true : false},
+		isEditMode: function(){ return $el.hasClass('edit-mode') ? true : false},
 		
 		// generic error notification function, pops up a UI dialog
 		notifyError:function(msg){
@@ -100,7 +102,9 @@ $.fn.attachAdmin = function(options) {
 				.find('.ui-icon-parent').remove() // remove any existing icons
 				.find('form').remove() // remove any existing form el(s)
 			// now attach/execute attachAdmin and run it (swaps us to edit view)
-			$new_el.attachAdmin({run:true})
+			var options = instance.options;
+			options.run = true;
+			$new_el.attachAdmin(options)
 			// and append our new el to the DOM, in front of this current el.
 			$new_el.insertBefore($el)
 		},
@@ -273,11 +277,22 @@ $.fn.attachAdmin = function(options) {
 			// add it to the form
 			$.each(instance.backEndElements, function(z, el_data){
 				var $field
-				if(el_data.field_type == 'text' || el_data.field_type == 'datetime' || el_data.field_type == 'int' || el_data.field_type == 'enum'){
+				if(el_data.field_type == 'text' || el_data.field_type == 'datetime' || el_data.field_type == 'int'){
 					// need to flesh this out to properly handle enum->select menu
 					$field = Input.$text.clone()
 				} else if(el_data.field_type == 'longtext'){
 					$field = Input.$textbox.clone()
+				} else if(el_data.field_type == 'enum'){
+					$field = Input.$select.clone();
+					if(!el_data.field_options){
+						// throw error, we need to have options for enum-type field
+						instance.notifyError('There are no options for select menu: ' + el_data.nice_name);
+					} else {
+						$.each(el_data.field_options, function(z, enum_opt){
+							$option = $('<option/>').val(enum_opt).text(enum_opt)
+								.appendTo($field);
+						});
+					}
 				}
 				var $label = $('<label>');
 				$label.text(el_data.nice_name);

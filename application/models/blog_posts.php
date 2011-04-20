@@ -28,30 +28,35 @@ class Blog_posts extends CI_Model
 		
 		if($query->num_rows() > 0)
 			foreach($query->result() as $row) array_push($results, $row);
-			
 					
 		foreach($results as $field):
-			//echo $field->name . ': ' . $field->type ."\n";
-			//var_dump($field);
 			$add_field = true;
 			
+			// grab our integer fields & update to be just "int"
 			if($field->Type == 'int(11)'):
 				$field->Type = 'int';
+			// grab our enum fields, and create an options variable
 			elseif(preg_match('/enum/', $field->Type)):
-				$field->Type = 'enum';				
+				$original_content = $field->Type;
+				preg_match_all("/'[a-zA-Z0-9]+'/", $original_content, $options);
+				foreach($options[0] as $key => $opt):
+					$options[$key] = substr($opt, 1, -1); // trims off leading & trailing single-quote
+				endforeach;
+				
+				$field->Type = 'enum';
+				$field->Options = $options;
 			endif;
 			
 			if($field->Key == 'PRI' && $field->Type == 'int'):
 				$add_field = false;
 			endif;
-			
-			
-			
+						
 			if($add_field):
 				$el = array();
 				$el['field_type'] = $field->Type;
 				$el['nice_name'] = ucwords(str_replace('_', ' ', $field->Field));
 				$el['field_name'] = $field->Field;
+				$el['options'] = (isset($options)) ? $options : array();
 	
 				array_push($els, (object)$el);			
 			endif;

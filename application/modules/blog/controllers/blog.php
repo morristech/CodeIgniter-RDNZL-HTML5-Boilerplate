@@ -106,15 +106,17 @@ class Blog extends MX_Controller{
 			$this->form_validation->set_rules('ajax', 'Ajax Option', 'trim|bool|xss_clean');
 			$this->form_validation->set_rules('title', 'Title', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('content', 'Content', 'trim|required|xss_clean');
+			$this->form_validation->set_rules('excerpt', 'Excerpt', 'trim|xss_clean');
 			$this->form_validation->set_rules('datetime_published', 'Time Published', 'trim|xss_clean');
 			
 			// begin validate-or-die block
 			if ($this->form_validation->run() == FALSE):
-				$this->json_error_msg('There was an error in your submission');
+				$this->json_error_msg("<b>There were errors in your submission:</b><br/><br/>" . validation_errors());
 			else:
 				$data = array(
 					'title' => $this->input->post('title'),
 					'content' => $this->input->post('content'),
+					'excerpt' => $this->input->post('excerpt'),
 					'datetime_last_edited' => date('Y-m-d g:i:s'),
 					'datetime_published' => $this->input->post('datetime_published'),
 				);
@@ -123,6 +125,7 @@ class Blog extends MX_Controller{
 				
 				if($this->input->post('ajax')):
 					if($result->has_error()):
+					
 						$this->json_error_msg($result->get_msg());
 					else:
 						$result = array('success' => true, 'msg' => $result->get_msg());
@@ -159,7 +162,7 @@ class Blog extends MX_Controller{
 		
 		// begin validate-or-die block
 		if ($this->form_validation->run() == FALSE):
-			$this->json_error_msg('There was an error in your submission');
+			$this->json_error_msg("<b>There were errors in your submission:</b><br/><br/>" . validation_errors());
 		else:
 			$data = array(
 				'title' => $this->input->post('title'),

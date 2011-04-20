@@ -30,17 +30,25 @@ td label{
 td input[type=checkbox]+label{
 	display:inline;
 }
+.edit-mode label{
+	font-size:13px;
+	font-weight:bold;
+	padding-left:3px;
+	margin-left:3px;
+}
 input[type=text],
 input[type=password],
-textarea{
+textarea,
+select{
 	padding: 6px 3px;
-	margin: 0px 3px 6px 3px;
+	margin: 0px 3px 12px 3px;
 }
 input[type=submit]{
 	margin-top:10px;
 }
 input.text-input,
-textarea.text-input{
+textarea.text-input,
+select.text-input{
 	display:block;
 	width:500px;
 }
