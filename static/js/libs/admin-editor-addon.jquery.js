@@ -45,7 +45,7 @@ $.fn.attachAdmin = function(options) {
 			var instance = this;
 			
 			instance.frontEndElements = options.frontEndElements;
-			instance.backEndelements = options.backEndelements;
+			instance.backEndElements = options.backEndElements;
 			instance.handlerURLs = options.handlerURLs;
 			
 			var formIcons = new Array(
