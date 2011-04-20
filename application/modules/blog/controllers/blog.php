@@ -107,6 +107,7 @@ class Blog extends MX_Controller{
 			$this->form_validation->set_rules('title', 'Title', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('content', 'Content', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('excerpt', 'Excerpt', 'trim|xss_clean');
+			$this->form_validation->set_rules('status', 'Post Status', 'trim|xss_clean');
 			$this->form_validation->set_rules('datetime_published', 'Time Published', 'trim|xss_clean');
 			
 			// begin validate-or-die block
@@ -117,6 +118,8 @@ class Blog extends MX_Controller{
 					'title' => $this->input->post('title'),
 					'content' => $this->input->post('content'),
 					'excerpt' => $this->input->post('excerpt'),
+					//'author' => $this->input->post('author'),
+					'status' => $this->input->post('status'),
 					'datetime_last_edited' => date('Y-m-d g:i:s'),
 					'datetime_published' => $this->input->post('datetime_published'),
 				);
@@ -159,6 +162,8 @@ class Blog extends MX_Controller{
 		$this->form_validation->set_rules('title', 'Title', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('content', 'Content', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('datetime_published', 'Time Published', 'trim|xss_clean');
+		$this->form_validation->set_rules('status', 'Post Status', 'trim|xss_clean');
+		$this->form_validation->set_rules('excerpt', 'Excerpt', 'trim|xss_clean');
 		
 		// begin validate-or-die block
 		if ($this->form_validation->run() == FALSE):
@@ -170,9 +175,11 @@ class Blog extends MX_Controller{
 				'datetime_last_edited' => date('Y-m-d g:i:s'),
 				'datetime_published' => $this->input->post('datetime_published'),
 				'datetime_created' => date('Y-m-d g:i:s'),
-				'status' => 'published',
+				'status' => $this->input->post('status'),
 				'author' => $this->tank_auth->get_user_id(),
 				'last_edited_by' => $this->tank_auth->get_user_id(),
+				'excerpt' => $this->input->post('excerpt'),
+				
 			);
 		
 			$result = $this->blog_posts->create_post($data);

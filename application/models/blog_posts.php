@@ -23,6 +23,12 @@ class Blog_posts extends CI_Model
 	function get_backend_elements(){
 		$els = array();
 		$query = $this->db->query("DESCRIBE " . $this->table_name);
+		$do_not_add = array(
+			'datetime_created',
+			'last_edited_by',
+			'datetime_last_edited',
+			'author',
+			);
 		
 		$results = array();
 		
@@ -30,44 +36,61 @@ class Blog_posts extends CI_Model
 			foreach($query->result() as $row) array_push($results, $row);
 					
 		foreach($results as $field):
-			$add_field = true;
-			
-			// grab our integer fields & update to be just "int"
-			if($field->Type == 'int(11)'):
-				$field->Type = 'int';
-			// grab our enum fields, and create an options variable
-			elseif(preg_match('/enum/', $field->Type)):
-				$original_content = $field->Type;
-				preg_match_all("/'[a-zA-Z0-9]+'/", $original_content, $options);
-				foreach($options[0] as $key => $opt):
-					$options[$key] = substr($opt, 1, -1); // trims off leading & trailing single-quote
-				endforeach;
-				
-				$field->Type = 'enum';
-				$field->Options = $options;
-			endif;
-			
-			if($field->Key == 'PRI' && $field->Type == 'int'):
-				$add_field = false;
-			endif;
+			// decide if we want to add this field or not.
+			// first check and see if it's in do_not_add
+			if(in_array($field->Field, $do_not_add)):
+				// do not add this item
+				// deprecated/unneeded: $add_field = false;
+			else:
+				// then check if it's a primary key
+				if($field->Key == 'PRI' && $field->Type == 'int(11)'):
+					// do not add this item
+					// deprecated/unneeded: $add_field = false;
+				else:
+					// neither of those? add it!
+					
+					// grab integer fields & update to be just "int"
+					if($field->Type == 'int(11)'):
+						$field->Type = 'int';
 						
-			if($add_field):
-				$el = array();
-				$el['field_type'] = $field->Type;
-				$el['nice_name'] = ucwords(str_replace('_', ' ', $field->Field));
-				$el['field_name'] = $field->Field;
-				$el['options'] = (isset($options)) ? $options : array();
-	
-				array_push($els, (object)$el);			
+					// grab enum fields, and create an options variable
+					elseif(preg_match('/enum/', $field->Type)):
+						$original_content = $field->Type;
+						preg_match_all("/'[a-zA-Z0-9]+'/", $original_content, $options);
+						foreach($options[0] as $key => $opt):
+							$options[$key] = substr($opt, 1, -1); // trims off leading & trailing single-quote
+						endforeach;
+						
+						$field->Type = 'enum';
+						$field->Options = $options;
+					endif;
+					
+					$el = array();
+					$el['field_type'] = $field->Type;
+					$el['nice_name'] = ucwords(str_replace('_', ' ', $field->Field));
+					$el['field_name'] = $field->Field;
+					$el['options'] = (isset($options)) ? $options : array();
+					
+					// with our info assembled, push it into $els array, cast as an object first
+					array_push($els, (object)$el);			
+				endif;
 			endif;
+			
 		endforeach;
 		
 		return $els;
 		
 	}
-	function get_posts(){
+	function get_posts($options = array()){
 		$this->db->order_by('datetime_created', 'desc');
 		
+		// use our options array to fetch deleted & draft items if we wish. by default, we 
+		// only want published items.
+		if(!isset($options['fetch_all']) || $options['fetch_all'] == false):
+			$this->db->where('status !=', 'draft');
+			$this->db->where('status !=', 'deleted');
+		endif;
+				
 		$query = $this->db->get($this->table_name);
 		
 		$results = array();
@@ -127,7 +150,8 @@ class Blog_posts extends CI_Model
 	}
 	function delete_post($id){
 		$this->db->where('id', $id);
-		$this->db->delete($this->table_name);
+		$data = array('status' => 'deleted');
+		$this->db->update($this->table_name, $data);
 		$this->set_msg('Delete successful');
 		return $this;
 	}

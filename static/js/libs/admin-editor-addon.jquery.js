@@ -27,6 +27,7 @@ $.fn.attachAdmin = function(options) {
 		$edit_trigger: Icons.$edit.clone()		.css({'left':'-30px'}),
 		$save_trigger: Icons.$save.clone()		.css({'left':'-60px','top':'00px'}),
 		$delete_trigger: Icons.$delete.clone()	.css({'left':'-60px','top':'30px'}),
+		$loading_icon: Icons.$loading.clone().css({'left':'-60px'}).addClass('ui-state-default ui-corner-all ui-icon-parent'),
 		
 		// REQUIRED PARAMS
 		// form elements & handler URLs
@@ -162,9 +163,11 @@ $.fn.attachAdmin = function(options) {
 			// to generate our selector, something like $(input[name=FIELDNAME]).
 			$.each(instance.backEndElements, function(z,el_data){
 				var tag
-				if(el_data.field_type == 'text'){
+				if(el_data.field_type == 'text' || el_data.field_type == 'int' || el_data.field_type == 'datetime'){
 					tag = 'input'
-				} else {
+				} else if(el_data.field_type == 'enum'){
+					tag = 'select'
+				}else {
 					tag = 'textarea'
 				} // we need to add more else stements to handle radio buttons, check boxes, and selects
 				
@@ -185,10 +188,8 @@ $.fn.attachAdmin = function(options) {
 				
 			var instance = this
 			// drop in a loading icon (to the left of the save-edit-trash column)
-			var $loading = Icons.$loading.clone()
-				.css({'left':'-60px'})
-				.addClass('ui-state-default ui-corner-all ui-icon-parent')
-				.appendTo($el)
+			var $loading = instance.$loading_icon;
+			$loading.appendTo($el)
 			
 			if(instance.id == 0){ // this is our indicator that we're adding a new item
 				// send the data to the server for the new item
