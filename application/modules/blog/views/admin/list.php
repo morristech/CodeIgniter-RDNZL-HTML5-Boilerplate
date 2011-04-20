@@ -10,6 +10,26 @@
 </script>
 
 <script>
+var backEndElements = Array();
+var frontEndElements = Array();
+<?php foreach($backend_elements as $el): ?>
+	backEndElements.push({
+		field_name: '<?php echo $el->field_name; ?>',
+		nice_name: '<?php echo $el->nice_name; ?>',
+		field_type: '<?php echo $el->field_type; ?>'
+	});
+<?php endforeach; ?>
+
+<?php foreach($frontend_elements as $el): ?>
+	frontEndElements.push({
+		field_name: '<?php echo $el->field_name; ?>',
+		nice_name: '<?php echo $el->nice_name; ?>',
+		field_type: '<?php echo $el->field_type; ?>'
+	});
+<?php endforeach; ?>
+</script>
+
+<script>
 $(document).ready(function(){ 
 
 	Icons.init();
@@ -57,16 +77,9 @@ $(document).ready(function(){
 			},
 			
 			// modify these two blocks to include field names for frontend...
-			frontEndElements: Array(
-				[{field_name:'title', nice_name:'Title', field_type: 'text'}],
-				[{field_name:'content', nice_name:'Content', field_type: 'textbox'}]
-			),
+			frontEndElements: frontEndElements,
 			// ... and backend elements
-			backEndElements: Array(
-				[{field_name:'title', nice_name:'Title', field_type: 'text'}],
-				[{field_name:'content', nice_name:'Content', field_type: 'textbox'}],
-				[{field_name:'datetime_published', nice_name:'Publish Date', field_type: 'text'}]
-			),
+			backEndElements: backEndElements,
 			// end of edits to make this run on ANY form (hah in theory anways!! :)
 			
 			setupDataProperty:function(){
@@ -252,23 +265,29 @@ $(document).ready(function(){
 				var instance = this // actions variable
 				var $form = $('<form method="post" action=""/>')
 								
-				$.each(instance.backEndElements, function(z, el_data){ el_data = el_data[0]
+				$.each(instance.backEndElements, function(z, el_data){ //el_data = el_data[0]
 					var $field
-					if(el_data.field_type == 'text'){
+					if(el_data.field_type == 'text' || el_data.field_type == 'datetime' || el_data.field_type == 'int' || el_data.field_type == 'enum'){
 						$field = Input.$text.clone()
-					} else if(el_data.field_type == 'textbox'){
+					} else if(el_data.field_type == 'longtext'){
 						$field = Input.$textbox.clone()
 					}
+					var $label = $('<label>');
+					$label.text(el_data.nice_name);
+					
 					$field.val(instance.data[el_data.field_name]).attr({
 						'name':el_data.field_name,
-						'placeholder':el_data.pretty_name})
-						.appendTo($form)
+						'placeholder':el_data.nice_name})
+						.appendTo($label)
+						
+					$label.appendTo($form);
+						
 					
 					if((el_data.field_name).match(/datetime/)){
 						$field.datetimepicker({dateFormat:'yy-mm-dd'})
 					}
 				})
-				return $form
+				return $form;
 			} // end getEditForm()
 		}// end actions
 

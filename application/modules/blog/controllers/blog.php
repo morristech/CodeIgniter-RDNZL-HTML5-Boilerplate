@@ -30,6 +30,12 @@ class Blog extends MX_Controller{
 		
 		$data['posts'] = $this->blog_posts->get_posts();
 		
+		$data['backend_elements'] = $this->blog_posts->get_backend_elements();
+		$data['frontend_elements'] = $this->blog_posts->get_frontend_elements();
+		
+		//echo "<pre>";
+		//var_dump($backend_elements);die;
+		
 		$this->load->view('tpl/header', $data);
 		$this->load->view('blog/admin/list', $data);
 		$this->load->view('tpl/footer', $data);

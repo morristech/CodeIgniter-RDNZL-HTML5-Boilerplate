@@ -17,6 +17,49 @@ class Blog_posts extends CI_Model
 	private $error				= false;
 	private $msg				= '';
 	
+	function get_frontend_elements(){
+		return $this->get_backend_elements();
+	}
+	function get_backend_elements(){
+		$els = array();
+		$query = $this->db->query("DESCRIBE " . $this->table_name);
+		
+		$results = array();
+		
+		if($query->num_rows() > 0)
+			foreach($query->result() as $row) array_push($results, $row);
+			
+					
+		foreach($results as $field):
+			//echo $field->name . ': ' . $field->type ."\n";
+			//var_dump($field);
+			$add_field = true;
+			
+			if($field->Type == 'int(11)'):
+				$field->Type = 'int';
+			elseif(preg_match('/enum/', $field->Type)):
+				$field->Type = 'enum';				
+			endif;
+			
+			if($field->Key == 'PRI' && $field->Type == 'int'):
+				$add_field = false;
+			endif;
+			
+			
+			
+			if($add_field):
+				$el = array();
+				$el['field_type'] = $field->Type;
+				$el['nice_name'] = ucwords(str_replace('_', ' ', $field->Field));
+				$el['field_name'] = $field->Field;
+	
+				array_push($els, (object)$el);			
+			endif;
+		endforeach;
+		
+		return $els;
+		
+	}
 	function get_posts(){
 		$this->db->order_by('datetime_created', 'desc');
 		
