@@ -24,6 +24,89 @@ class Users extends CI_Model
 		$this->profile_table_name	= $ci->config->item('db_table_prefix', 'tank_auth').$this->profile_table_name;
 	}
 
+	function get_frontend_elements(){
+		return $this->get_backend_elements();
+	}
+	function get_backend_elements(){
+		$els = array();
+		$query = $this->db->query("DESCRIBE " . $this->table_name);
+		$do_not_add = array(
+			'password',
+			'activated',
+			'banned',
+			'ban_reason',
+			'new_password_key',
+			'new_password_requested',
+			'new_email',
+			'new_email_key',
+			'last_ip',
+			'last_login',
+			'created',
+			'modified',
+			);
+		
+		$results = array();
+		
+		if($query->num_rows() > 0)
+			foreach($query->result() as $row) array_push($results, $row);
+					
+		foreach($results as $field):
+			// decide if we want to add this field or not.
+			// first check and see if it's in do_not_add
+			if(in_array($field->Field, $do_not_add)):
+				// do not add this item
+				// deprecated/unneeded: $add_field = false;
+			else:
+				// then check if it's a primary key
+				if($field->Key == 'PRI' && $field->Type == 'int(11)'):
+					// do not add this item
+					// deprecated/unneeded: $add_field = false;
+				else:
+					// neither of those? add it!
+					
+					// grab integer fields & update to be just "int"
+					if(
+						$field->Type == 'int(11)' ||
+						$field->Type == 'tinyint(1)'
+					   ):
+						$field->Type = 'int';
+						
+					// grab varchar fields
+					elseif(preg_match('/varchar\(([0-9]+)\)/', $field->Type)):
+						$field->Type = 'text';
+						
+					elseif(preg_match('/timestamp/', $field->Type)):
+						$field->Type = 'datetime';
+						
+					elseif(preg_match('/enum/', $field->Type)):
+						$original_content = $field->Type;
+						preg_match_all("/'[a-zA-Z0-9]+'/", $original_content, $options);
+						foreach($options[0] as $key => $opt):
+							$options[$key] = substr($opt, 1, -1); // trims off leading & trailing single-quote
+						endforeach;
+						
+						$field->Type = 'enum';
+						$field->Options = $options;
+					endif;
+					
+					$el = array();
+					$el['field_type'] = $field->Type;
+					$el['nice_name'] = ucwords(str_replace('_', ' ', $field->Field));
+					$el['field_name'] = $field->Field;
+					$el['options'] = (isset($options)) ? $options : array();
+					
+					// with our info assembled, push it into $els array, cast as an object first
+					array_push($els, (object)$el);			
+				endif;
+			endif;
+			
+		endforeach;
+		
+		return $els;
+		
+	}
+	
+
 	/**
 	 * Get user record by Id
 	 *

@@ -32,6 +32,39 @@ class Auth extends MX_Controller
 			redirect('/auth/login/');
 		}
 	}
+	
+	function admin(){		
+		if (!$this->tank_auth->is_logged_in()) redirect('auth/login');
+				
+		$this->load->library('parser');		
+		
+		$data = array();
+		
+		$data['users'] = $this->tank_auth->get_users();
+		
+		$data['backend_elements'] = $this->users->get_backend_elements();
+		$data['frontend_elements'] = $this->users->get_frontend_elements();
+		
+		//echo "<pre>";
+		//var_dump($backend_elements);die;
+		
+		$this->load->view('tpl/header', $data);
+		$this->load->view('auth/admin/list', $data);
+		$this->load->view('tpl/footer', $data);
+	}
+	function get_user(){	
+		if (!$this->tank_auth->is_logged_in()) redirect('auth/login');
+		
+		if(FALSE === $this->uri->segment(3)):
+			$this->json_error_msg('Sorry, no user found.');		
+		elseif(intval($this->uri->segment(3)) > 0): 
+			$find_term = $this->uri->segment(3);
+			echo json_encode($this->users->get_user_by_id($find_term, true));
+		else:
+			$this->json_error_msg('Sorry, no user found.');
+		endif;
+	}
+	
 
 	/**
 	 * Login user on the site

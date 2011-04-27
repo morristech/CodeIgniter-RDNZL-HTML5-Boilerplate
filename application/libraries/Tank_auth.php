@@ -148,6 +148,16 @@ class Tank_auth
 	{
 		return $this->ci->session->userdata('username');
 	}
+	
+	/**
+	 * Fetch all users 
+	 *
+	 *
+	 */	
+	function get_users(){
+		$users = $this->ci->users->get_users();
+		return $users;
+	}
 
 	/**
 	 * Create new user on the site and return some data about it:
