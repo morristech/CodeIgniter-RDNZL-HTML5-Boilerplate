@@ -1,0 +1,95 @@
+/*
+    // ========================================== \\
+   ||                                              ||
+   ||               Your styles !                  ||
+   ||                                              ||
+    \\ ========================================== //
+*/
+
+body{
+	background-color:#555;
+}
+#container{
+	width:760px;
+	margin:10px auto;
+	background-color:#fefefe;
+	padding:20px 10px;
+}
+
+header {
+	border:2px solid #ddd;
+	padding: 10px;
+	background-color:#aaa;
+}
+header p{
+	font-weight:bold;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	color:#444;
+	font-size:22px;
+}
+nav#primary{
+	padding:10px 0;
+	border-bottom:2px dotted #aaa;
+	margin-bottom:10px;
+}
+nav#primary a{
+	margin-right:10px;
+}
+.is_logged_in #container{
+	margin-top:40px;
+}
+nav#admin{
+	position:fixed;
+	width:100%;
+	padding:6px 0px 6px 0px;
+	background-color:#ddd;
+	top:0;
+	left:0;
+	text-align:right;
+}
+nav#admin a{
+	margin-right:20px;
+	font-weight:bold;
+	color:#333;
+	text-decoration:none;
+	font-size:11px;
+	padding:2px 3px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+}
+nav#admin a:hover{
+	background-color:#fff;
+	color:#607890;
+}
+.hentry{
+	padding:10px;
+	margin:0 0 25px;
+	border:1px solid #aaa;
+}
+
+div#main p,
+div#main blockquote,
+div#main ul,
+div#main h1,
+div#main h2,
+div#main h3,
+div#main h4,
+div#main h5,
+div#main h6 {margin-bottom:6px;}
+
+div#main p{
+	font-size:12px;
+	line-height:18px;
+	margin-bottom:6px;
+}
+div#main blockquote{
+	padding:20px;
+	font-size:170%;
+	font-style:italic;
+	background-color:#aaa;
+	color:#444;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	font-weight:bold;
+	margin:10px 40px;
+}

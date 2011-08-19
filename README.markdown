@@ -23,7 +23,7 @@ What you'll need
 
 Installation
 ------------
-+ 	MySQL: You'll need a database (empty is best). Populate it with the contents of the SQL file (database_wipe_dump.sql) in the root folder of this package. Edit the CodeIgniter config file to match your database info.
++ 	MySQL: You'll need a database (empty is best). Populate it with the contents of the SQL file (database\_wipe\_dump.sql) in the root folder of this package. Edit the CodeIgniter config file to match your database info.
 	- 	**Configuration File Location and Default Settings:**
     -	**/application/config/config.php**
 	- 	User: ci_boilerplate

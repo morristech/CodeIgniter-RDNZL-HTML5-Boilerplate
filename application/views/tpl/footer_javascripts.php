@@ -7,8 +7,8 @@
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
        
     <!-- load our js plugins & other -->
-	<script src="<?php echo site_url("static/js/plugins.js");?>"></script>
-	<script src="<?php echo site_url("static/js/script.js");?>"></script>
+	<script defer src="<?php echo site_url("static/js/plugins.js");?>"></script>
+	<script defer src="<?php echo site_url("static/js/script.js");?>"></script>
     
     <?php 
 		if($this->tank_auth->is_logged_in()):
@@ -23,11 +23,16 @@
 		endif; 
 	?>
     
-    <?php /*
-	<script>
-		var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']]; // Change UA-XXXXX-X to be your site's ID
-		(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;
-		g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-		s.parentNode.insertBefore(g,s)}(document,'script'));
-	</script>
-	*/ ?>
+    <?php /* Google Analytics code for you to use: ?>
+	<script> // Change UA-XXXXX-X to be your site's ID
+        window._gaq = [['_setAccount','UAXXXXXXXX1'],['_trackPageview'],['_trackPageLoadTime']];
+        Modernizr.load({
+            load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
+        });
+    </script>
+	<?php */ ?>
+
+    <!--[if lt IE 7 ]>
+        <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+        <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+    <![endif]-->
