@@ -33,13 +33,11 @@ Installation
     
 + 	Apache: Just drop the whole package into the root of a VHost on your webserver. Here's my Apache VirtualHost entry:
     
-    `<VirtualHost *:80>`
-    <pre>
-        ServerName ci_boilerplate.dev
-        DocumentRoot path/to/some/directory/CodeIgniter-RDNZL-HTML5-Boilerplate
-        ErrorLog path/to/some/directory/CodeIgniter-RDNZL-HTML5-Boilerplate/error_log.txt
-    </pre>
-    `</VirtualHost>`
+        <VirtualHost *:80>
+            ServerName ci_boilerplate.dev
+            DocumentRoot path/to/some/directory/CodeIgniter-RDNZL-HTML5-Boilerplate
+            ErrorLog path/to/some/directory/CodeIgniter-RDNZL-HTML5-Boilerplate/error_log.txt
+        </VirtualHost>
 	
 	Obviously, you'll want to add that hostname to your hosts file, or do whatever you normally do.
 
