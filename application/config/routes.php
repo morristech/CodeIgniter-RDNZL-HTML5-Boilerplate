@@ -47,7 +47,5 @@ $route['404_override'] = '';
 
 /*-------------------------------------------------
 	End CodeIgniter (RDNZL) HTML5 Boilerplate */
-
-
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
