@@ -1,10 +1,10 @@
 	<!-- load modernizer -->
-	<script src="<?php echo site_url('static/js/libs/modernizr-2.0.6.min.js'); ?>"></script>    
+	<script src="<?php echo site_url('static/js/libs/modernizr-2.5.3.min.js'); ?>"></script>    
 
 	<!-- load jquery+ui, cuz its awesome, yo -->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-	<script>!window.jQuery && document.write(unescape('%3Cscript src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"%3E%3C/script%3E'))</script>
-	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+	<script>!window.jQuery && document.write(unescape('%3Cscript src="//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"%3E%3C/script%3E'))</script>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
        
     <!-- load our js plugins & other -->
 	<script defer src="<?php echo site_url("static/js/plugins.js");?>"></script>
