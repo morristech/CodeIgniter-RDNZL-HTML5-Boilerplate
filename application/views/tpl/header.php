@@ -18,7 +18,7 @@
 	<?php $css_version = '2.0'; // arbitrary number, useful for debugging & beating back the cache demons ?>
     <?php echo link_tag('static/css/style.css?v=' . $css_version); // html5boilerplate?>
     <?php echo link_tag('static/css/style_custom.css?v=' . $css_version); // custom sheet for this site ?>
-	<?php echo link_tag('static/css/jquery-ui-themes/pepper-grinder/jquery-ui-1.8.11.custom.css'); // jquery ui theme "Pepper Grinder"?>
+	<?php echo link_tag('https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/pepper-grinder/jquery-ui.css'); // jquery ui theme "Pepper Grinder"?>
 	<?php echo link_tag('static/css/jquery-ui-themes/site_extras.css'); // jquery ui extras?>
     
     <?php $this->load->view('tpl/footer_javascripts', array('option'=>'for_the_future')); ?>    
