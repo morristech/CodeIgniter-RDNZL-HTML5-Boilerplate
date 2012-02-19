@@ -101,7 +101,7 @@ class Blog extends MX_Controller{
 			
 			// get our input data and validate it
 			$this->load->library('form_validation');
-			$this->form_validation->CI =& $this;
+			//$this->form_validation->CI =& $this;
 			
 			$this->form_validation->set_rules('ajax', 'Ajax Option', 'trim|bool|xss_clean');
 			$this->form_validation->set_rules('title', 'Title', 'trim|required|xss_clean');

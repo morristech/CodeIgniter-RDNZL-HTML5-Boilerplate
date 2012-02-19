@@ -10,7 +10,7 @@ class Auth extends MX_Controller
 		$this->load->library('form_validation');
 		// WBMOD: added next line, as per instructions w/r/t when using Form_validation class
 		// https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc/wiki/Home
-		$this->form_validation->CI =& $this;
+		//$this->form_validation->CI =& $this;
 		// end WBMOD
 		
 		// WBMOD this call is deprecated and was throwing an error. security library has
