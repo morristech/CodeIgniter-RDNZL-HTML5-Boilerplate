@@ -5,7 +5,7 @@ CodeIgniter (RDNZL Mutation) + HTML5 Boilerplate
 
 Features
 --------
-+	[CodeIgniter](http://codeigniter.com) (2.0.2)
++	[CodeIgniter](http://codeigniter.com) (2.1.0)
 + 	Base HTML is the awesome [HTML5 Boilerplate](http://html5boilerplate.com/) (2.0), including the "good" Javascript:
 	- 	[Modernizer](http://www.modernizr.com/) (2.0.6)
 	- 	[jQuery](http://jquery.com) (1.6.2)
